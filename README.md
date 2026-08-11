@@ -1,19 +1,12 @@
-# StoreStock-Web Version1（チェック版）
+# StoreStock-Web V2 WEB取込版
 
-GitHub Pagesへ置くのは `index.html / style.css / config.js / app.js` だけです。
-実在庫Excel・実売上データはGitHubへ保存しません。
+GitHubにはプログラムだけを置きます。実在庫ExcelはWEBからGoogle Apps Scriptへ送信し、共通Googleスプレッドシートに保存します。
 
-## 月曜在庫の取り込み
-サイト下部の「月曜在庫の取り込み」でExcelを選択し、内容確認後にコピーします。
-その内容を共通の月曜在庫GoogleスプレッドシートのA1へ貼り付けます。
+## GitHubへ置くファイル
+- index.html
+- style.css
+- config.js
+- app.js
 
 ## 重要
-専用の月曜在庫GoogleスプレッドシートURLがまだ未設定です。
-作成後、`config.js` の `STOCK_SHEET` に id / gid / editUrl を入れます。
-未設定の状態では検索を開始しない安全設計です。
-
-## 可変対応
-- 行数増減OK
-- 店舗列の位置変更OK
-- 店舗列追加で既存店舗は壊れない
-- 店舗名は見出しで判定
+config.js の API_URL だけ、発行済みApps Scriptの /exec URL に置き換えてください。

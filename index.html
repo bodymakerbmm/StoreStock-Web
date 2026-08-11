@@ -9,21 +9,32 @@
 </head>
 <body>
 <main class="wrap">
-<header><div><h1>店舗現在庫検索</h1><p>月曜朝在庫 − 月曜から前日までの売れ数</p></div>
-<button id="reloadBtn" type="button">最新データ再読込</button></header>
+<header class="header">
+<div><h1>店舗現在庫検索</h1><p>月曜朝在庫 − 月曜から前日までの売れ数</p></div>
+<button id="reloadBtn" class="secondary" type="button">最新データ再読込</button>
+</header>
 
-<section class="status">
-<div><span>基準在庫</span><strong id="baseDate">確認中…</strong></div>
-<div><span>売上反映</span><strong id="salesThrough">確認中…</strong></div>
-<div><span>月曜在庫</span><strong id="stockStatus">確認中…</strong></div>
-<div><span>売上シート</span><strong id="salesStatus">確認中…</strong></div>
+<section class="status-grid">
+<div class="status-card"><span>基準在庫</span><strong id="baseDate">確認中…</strong></div>
+<div class="status-card"><span>売上反映</span><strong id="salesThrough">確認中…</strong></div>
+<div class="status-card"><span>月曜在庫</span><strong id="stockStatus">確認中…</strong></div>
+<div class="status-card"><span>売上シート</span><strong id="salesStatus">確認中…</strong></div>
 </section>
 
-<div id="notice" class="notice hidden"></div>
+<section id="notice" class="notice hidden" aria-live="polite"></section>
+
+<section id="accessCard" class="card">
+<label for="accessKeyInput">アクセスコード</label>
+<div class="inline-form">
+<input id="accessKeyInput" type="password" autocomplete="current-password" placeholder="本部用アクセスコード">
+<button id="saveAccessKeyBtn" type="button">保存して接続</button>
+</div>
+<p class="help">最初の1回だけ入力します。このPCのブラウザ内に保存され、GitHubには保存されません。</p>
+</section>
 
 <section class="card">
 <label for="searchInput">品番検索</label>
-<input id="searchInput" type="search" placeholder="例：MT → MT401 → MT401MBK" disabled>
+<input id="searchInput" class="search-input" type="search" placeholder="例：MT → MT401 → MT401MBK" autocomplete="off" disabled>
 <p class="help">品番の部分一致でリアルタイムに絞り込みます。</p>
 </section>
 
@@ -32,28 +43,28 @@
 <span id="resultCount"></span>
 </div>
 
-<section id="results"><div class="empty">データを読み込んでいます…</div></section>
+<section id="results"><div class="empty">接続準備中…</div></section>
 
-<details class="admin">
+<details class="admin-card">
 <summary>月曜在庫の取り込み（本部担当者向け）</summary>
 <div class="admin-body">
-<p>毎週月曜日の全店在庫Excelをここで確認できます。GitHubへ実在庫ファイルは保存しません。</p>
-<div class="import-row">
-<label>① 全店在庫Excelを選択<input id="stockFileInput" type="file" accept=".xlsx,.xls"></label>
-<button id="inspectStockBtn" type="button">Excelを確認</button>
-</div>
+<p>毎週月曜日、ここから全店在庫Excelを選択して「月曜在庫を更新」を押すだけです。</p>
+<p class="help">実在庫ExcelはGitHubへ保存されません。Google Apps Script経由で共通保存します。</p>
+<label class="file-label">全店在庫Excel
+<input id="stockFileInput" type="file" accept=".xlsx,.xls">
+</label>
 <div id="importResult" class="import-result hidden"></div>
-<div class="sheet-box">
-<strong>② 共通の月曜在庫Googleスプレッドシートへ反映</strong>
-<p>「Excel内容をコピー」→ 月曜在庫シートを開く → A1に貼り付け、で更新します。</p>
-<div class="buttons">
-<button id="copyStockBtn" type="button" disabled>Excel内容をコピー</button>
-<a id="openStockSheetLink" class="button disabled" href="#" target="_blank" rel="noopener">月曜在庫シートを開く</a>
+<div class="button-row">
+<button id="inspectStockBtn" type="button">Excel内容を確認</button>
+<button id="uploadStockBtn" type="button" disabled>月曜在庫を更新</button>
 </div>
-</div>
+<div id="uploadProgress" class="progress hidden">更新中です。画面を閉じないでください…</div>
 </div>
 </details>
+
+<iframe id="uploadFrame" name="uploadFrame" class="hidden-frame" title="upload response"></iframe>
 </main>
+
 <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
 <script src="./config.js"></script>
 <script src="./app.js"></script>
