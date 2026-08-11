@@ -1,4 +1,5 @@
 window.STORE_STOCK_CONFIG={
+API_URL:"https://script.google.com/macros/s/AKfycbzv0y1zXnafTl5iWXnRriWNQrlLu-Bss2cCObFOcNHTXDEuvJeG2my-2QrpnA6cFPVoYw/exec",
 STOCK_SHEET:{id:"",gid:"0",editUrl:""},
 SALES_SHEETS:[
 {store:"東大阪店",id:"1GYGlpQv95bRDOHRAexdPb6tciBzhPItBPY5YcSYi6UE",gid:"1770925758"},
