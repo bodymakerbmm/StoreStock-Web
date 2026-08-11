@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>店舗現在庫検索</title>
+<link rel="stylesheet" href="./style.css">
+</head>
+<body>
+<main class="wrap">
+<header><div><h1>店舗現在庫検索</h1><p>月曜朝在庫 − 月曜から前日までの売れ数</p></div>
+<button id="reloadBtn" type="button">最新データ再読込</button></header>
+
+<section class="status">
+<div><span>基準在庫</span><strong id="baseDate">確認中…</strong></div>
+<div><span>売上反映</span><strong id="salesThrough">確認中…</strong></div>
+<div><span>月曜在庫</span><strong id="stockStatus">確認中…</strong></div>
+<div><span>売上シート</span><strong id="salesStatus">確認中…</strong></div>
+</section>
+
+<div id="notice" class="notice hidden"></div>
+
+<section class="card">
+<label for="searchInput">品番検索</label>
+<input id="searchInput" type="search" placeholder="例：MT → MT401 → MT401MBK" disabled>
+<p class="help">品番の部分一致でリアルタイムに絞り込みます。</p>
+</section>
+
+<div class="toolbar">
+<label><input id="inStockOnly" type="checkbox"> 在庫あり店舗がある商品だけ表示</label>
+<span id="resultCount"></span>
+</div>
+
+<section id="results"><div class="empty">データを読み込んでいます…</div></section>
+
+<details class="admin">
+<summary>月曜在庫の取り込み（本部担当者向け）</summary>
+<div class="admin-body">
+<p>毎週月曜日の全店在庫Excelをここで確認できます。GitHubへ実在庫ファイルは保存しません。</p>
+<div class="import-row">
+<label>① 全店在庫Excelを選択<input id="stockFileInput" type="file" accept=".xlsx,.xls"></label>
+<button id="inspectStockBtn" type="button">Excelを確認</button>
+</div>
+<div id="importResult" class="import-result hidden"></div>
+<div class="sheet-box">
+<strong>② 共通の月曜在庫Googleスプレッドシートへ反映</strong>
+<p>「Excel内容をコピー」→ 月曜在庫シートを開く → A1に貼り付け、で更新します。</p>
+<div class="buttons">
+<button id="copyStockBtn" type="button" disabled>Excel内容をコピー</button>
+<a id="openStockSheetLink" class="button disabled" href="#" target="_blank" rel="noopener">月曜在庫シートを開く</a>
+</div>
+</div>
+</div>
+</details>
+</main>
+<script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+<script src="./config.js"></script>
+<script src="./app.js"></script>
+</body>
+</html>
