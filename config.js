@@ -1,5 +1,5 @@
 window.STORE_STOCK_CONFIG = {
-  API_URL: "",
+  API_URL: "https://docs.google.com/spreadsheets/d/1-awKFBD7oY3IubbC71L5tTIdB2k1r-uzgVBbc-1pC9g/edit?gid=0#gid=0",
 
   SALES_SHEETS: [
     { store:"東大阪店", id:"1GYGlpQv95bRDOHRAexdPb6tciBzhPItBPY5YcSYi6UE", gid:"1770925758" },
