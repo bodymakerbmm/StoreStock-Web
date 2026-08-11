@@ -1,72 +1,26 @@
 <!doctype html>
 <html lang="ja">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="robots" content="noindex,nofollow">
-<title>店舗現在庫検索</title>
-<link rel="stylesheet" href="./style.css">
-</head>
-<body>
-<main class="wrap">
-<header class="header">
-<div><h1>店舗現在庫検索</h1><p>月曜朝在庫 − 月曜から前日までの売れ数</p></div>
-<button id="reloadBtn" class="secondary" type="button">最新データ再読込</button>
-</header>
-
-<section class="status-grid">
-<div class="status-card"><span>基準在庫</span><strong id="baseDate">確認中…</strong></div>
-<div class="status-card"><span>売上反映</span><strong id="salesThrough">確認中…</strong></div>
-<div class="status-card"><span>月曜在庫</span><strong id="stockStatus">確認中…</strong></div>
-<div class="status-card"><span>売上シート</span><strong id="salesStatus">確認中…</strong></div>
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow"><title>店舗現在庫検索</title>
+<link rel="stylesheet" href="./style.css"></head>
+<body><main class="wrap">
+<header><div><h1>店舗現在庫検索</h1><p>月曜朝在庫 − 月曜から前日までの売れ数</p></div>
+<button id="reloadBtn" class="secondary" type="button">再読込</button></header>
+<section class="summary">
+<div><span>基準在庫</span><strong id="baseDate">確認中…</strong></div>
+<div><span>反映日</span><strong id="salesThrough">確認中…</strong></div>
 </section>
-
 <section id="notice" class="notice hidden" aria-live="polite"></section>
-
-<section id="accessCard" class="card">
-<label for="accessKeyInput">アクセスコード</label>
-<div class="inline-form">
-<input id="accessKeyInput" type="password" autocomplete="current-password" placeholder="本部用アクセスコード">
-<button id="saveAccessKeyBtn" type="button">保存して接続</button>
-</div>
-<p class="help">最初の1回だけ入力します。このPCのブラウザ内に保存され、GitHubには保存されません。</p>
+<section class="search-card"><input id="searchInput" type="search"
+placeholder="品番を入力　例：MT → MT401 → MT401MBK" autocomplete="off" disabled></section>
+<section id="results"><div class="empty">データを読み込んでいます…</div></section>
+<section class="upload-card">
+<button id="selectStockBtn" type="button">月曜在庫を取り込む</button>
+<input id="stockFileInput" type="file" accept=".xlsx,.xls" hidden>
+<div id="uploadState" class="upload-state"></div>
 </section>
-
-<section class="card">
-<label for="searchInput">品番検索</label>
-<input id="searchInput" class="search-input" type="search" placeholder="例：MT → MT401 → MT401MBK" autocomplete="off" disabled>
-<p class="help">品番の部分一致でリアルタイムに絞り込みます。</p>
-</section>
-
-<div class="toolbar">
-<label><input id="inStockOnly" type="checkbox"> 在庫あり店舗がある商品だけ表示</label>
-<span id="resultCount"></span>
-</div>
-
-<section id="results"><div class="empty">接続準備中…</div></section>
-
-<details class="admin-card">
-<summary>月曜在庫の取り込み（本部担当者向け）</summary>
-<div class="admin-body">
-<p>毎週月曜日、ここから全店在庫Excelを選択して「月曜在庫を更新」を押すだけです。</p>
-<p class="help">実在庫ExcelはGitHubへ保存されません。Google Apps Script経由で共通保存します。</p>
-<label class="file-label">全店在庫Excel
-<input id="stockFileInput" type="file" accept=".xlsx,.xls">
-</label>
-<div id="importResult" class="import-result hidden"></div>
-<div class="button-row">
-<button id="inspectStockBtn" type="button">Excel内容を確認</button>
-<button id="uploadStockBtn" type="button" disabled>月曜在庫を更新</button>
-</div>
-<div id="uploadProgress" class="progress hidden">更新中です。画面を閉じないでください…</div>
-</div>
-</details>
-
 <iframe id="uploadFrame" name="uploadFrame" class="hidden-frame" title="upload response"></iframe>
 </main>
-
 <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
-<script src="./config.js"></script>
-<script src="./app.js"></script>
-</body>
-</html>
+<script src="./config.js"></script><script src="./app.js"></script>
+</body></html>
