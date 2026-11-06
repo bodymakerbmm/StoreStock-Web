@@ -55,10 +55,12 @@ async function confirmUpload(sourceRows){
 async function chooseAndUpload(file){
   if(uploadInProgress)return;
   try{
-    const b=await file.arrayBuffer(),wb=XLSX.read(b,{type:"array",cellDates:true}),ws=wb.Sheets[wb.SheetNames[0]],rows=XLSX.utils.sheet_to_json(ws,{header:1,defval:"",raw:false});
+    const b=await file.arrayBuffer(),wb=XLSX.read(b,{type:"array",cellDates:true}),ws=wb.Sheets[wb.SheetNames[0]],rows=XLSX.utils.sheet_to_json(ws,{header:1,defval:"",raw:false}),rawRows=XLSX.utils.sheet_to_json(ws,{header:1,defval:"",raw:true});
     if(rows.length<2)throw new Error("Excelにデータがありません。");
     const h=rows[0].map(txt);
     for(const req of ["JAN","品番","品名"])if(hidx(h,req)<0)throw new Error(`必要な見出しがありません: ${req}`);
+    const ji=hidx(h,"JAN");let badJan=0;for(let r=1;r<rows.length;r++){const v=rawRows[r]?.[ji];if(typeof v==="number"&&Number.isFinite(v))rows[r][ji]=String(Math.round(v));else if(rows[r])rows[r][ji]=jan(rows[r][ji]);if(/e\+/i.test(String(rows[r]?.[ji]??"")))badJan++}
+    if(badJan)throw new Error(`JANが「4.57E+12」のような指数表記になっている行が${badJan}行あります。元のデータから書き出し直してください。`);
     const sc=detectStores(h);if(!sc.length)throw new Error("対象店舗列を検出できません。");
     if(!confirm(`${file.name}\n${rows.length.toLocaleString()}行\n${sc.map(x=>x.store).join(" / ")}\n\nこの内容で月曜在庫を更新しますか？`))return;
     pendingRows=rows;
